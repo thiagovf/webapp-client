@@ -21,14 +21,28 @@ function Cadastrar() {
 	$('#myModal').modal('hide');
 }
 
-function Cancelar() {
+function NovoAluno() {
 	var myModalLabel = document.querySelector('#myModalLabel');
 	var btnSalvar = document.querySelector('#btnSalvar');
-	var btnCancelar = document.querySelector('#btnCancelar');
 
 	myModalLabel.textContent = 'Cadastrar Aluno'
 	btnSalvar.textContent = 'Cadastrar';
-	btnCancelar.textContent = 'Limpar';
+
+	document.querySelector('#nome').value = '';
+	document.querySelector('#sobrenome').value = '';
+	document.querySelector('#telefone').value = '';
+	document.querySelector('#ra').value = '';
+
+	aluno = {};
+	$('#myModal').modal('show');
+}
+
+function Cancelar() {
+	var myModalLabel = document.querySelector('#myModalLabel');
+	var btnSalvar = document.querySelector('#btnSalvar');
+
+	myModalLabel.textContent = 'Cadastrar Aluno'
+	btnSalvar.textContent = 'Cadastrar';
 
 	document.querySelector('#nome').value = '';
 	document.querySelector('#sobrenome').value = '';
@@ -42,7 +56,7 @@ function Cancelar() {
 function carregaEstudantes() {
 	tbody.innerHTML = '';
 	var xhr = new XMLHttpRequest();
-	
+
 	xhr.open('GET', `http://localhost:51441/api/Aluno/`, true);
 
 	xhr.onload = function () {
@@ -60,7 +74,7 @@ function salvarEstudante(metodoHTTP, id, corpo) {
 	if (id === undefined || id === 0) {
 		id = '';
 	}
-	
+
 	xhr.open(metodoHTTP, `http://localhost:51441/api/Aluno/${id}`, false);
 
 	xhr.setRequestHeader('content-type', 'application/json');
@@ -73,11 +87,9 @@ function editarEstudante(estudante) {
 
 	var myModalLabel = document.querySelector('#myModalLabel');
 	var btnSalvar = document.querySelector('#btnSalvar');
-	var btnCancelar = document.querySelector('#btnCancelar');
 
 	myModalLabel.textContent = `Editar Aluno ${estudante.Nome}`;
 	btnSalvar.textContent = 'Salvar';
-	btnCancelar.textContent = 'Cancelar';
 
 	document.querySelector('#nome').value = estudante.Nome;
 	document.querySelector('#sobrenome').value = estudante.Sobrenome;
@@ -94,9 +106,27 @@ function excluirEstudante(id) {
 	xhr.send();
 }
 
-function excluir(id) {
-	excluirEstudante(id);
-	carregaEstudantes();
+function excluir(estudante) {
+	bootbox.confirm({
+	    message: `Tem certeza que deseja excluir o estudante ${estudante.Nome}?`,
+	    buttons: {
+	        confirm: {
+	            label: 'Sim',
+	            className: 'btn-success'
+	        },
+	        cancel: {
+	            label: 'Não',
+	            className: 'btn-danger'
+	        }
+	    },
+	    callback: function (result) {
+	       	if(result) {
+				excluirEstudante(estudante.Id);
+				carregaEstudantes();
+			}
+	    }
+	});
+
 }
 
 function adicionaLinha(estudante) {
@@ -108,7 +138,7 @@ function adicionaLinha(estudante) {
 	<td>${estudante.RA}</td>
 	<td>
 	<button class='btn btn-info' data-toggle="modal" data-target="#myModal" onClick='editarEstudante(${JSON.stringify(estudante)})'>Editar</button>
-	<button class='btn btn-danger' data-toggle="modal" data-target="#myModal" onClick='excluirEstudante(${estudante.Id})'>Excluir</button>
+	<button class='btn btn-danger' onClick='excluir(${JSON.stringify(estudante)})'>Excluir</button>
 	</td>
 	</tr>
 	`

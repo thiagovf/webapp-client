@@ -26,7 +26,7 @@
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-success" id='btnSalvar' onClick='Cadastrar()'>Cadastrar</button>
-							<button class="btn btn-default" id='btnCancelar' onClick='Cancelar()'>Limpar</button>
+							<button class="btn btn-default" id='btnCancelar' onClick='Cancelar()'>Cancelar</button>
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 
 			<div class="cabecalho-cadastro">
 				<h2 id='titulo'>Cadastrar Aluno</h2>
-				<button type="button" class="btn btn-primary btn pull-right" data-toggle="modal" data-target="#myModal">
+				<button type="button" class="btn btn-primary btn pull-right" onclick="NovoAluno()">
 					Cadastrar
 				</button>
 			</div>
@@ -60,5 +60,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootbox.min.js"></script>
 	</body>
 	</html>
