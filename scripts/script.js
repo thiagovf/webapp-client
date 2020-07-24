@@ -57,12 +57,23 @@ function carregaEstudantes() {
 	tbody.innerHTML = '';
 	var xhr = new XMLHttpRequest();
 
-	xhr.open('GET', `http://localhost:51441/api/Aluno/`, true);
+	xhr.open('GET', `http://localhost:51441/api/Aluno/Recuperar`, true);
 
-	xhr.onload = function () {
-		var estudantes = JSON.parse(this.responseText);
-		for (var indice in estudantes) {
-			adicionaLinha(estudantes[indice]);
+	xhr.onerror = function () {
+		console.log('ERROR', xhr.readyState);
+	}
+
+	xhr.onreadystatechange = function () {
+		if (this.readyState == 4) {
+			if (this.status == 200) {
+				var estudantes = JSON.parse(this.responseText);
+				for (var indice in estudantes) {
+					adicionaLinha(estudantes[indice]);
+				}
+			} else if (this.status == 500) {
+				var erro = JSON.parse(this.responseText);
+				console.log(erro);
+			}
 		}
 	}
 	xhr.send();
