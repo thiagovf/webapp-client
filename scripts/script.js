@@ -99,13 +99,13 @@ function editarEstudante(estudante) {
 	var myModalLabel = document.querySelector('#myModalLabel');
 	var btnSalvar = document.querySelector('#btnSalvar');
 
-	myModalLabel.textContent = `Editar Aluno ${estudante.Nome}`;
+	myModalLabel.textContent = `Editar Aluno ${estudante.nome}`;
 	btnSalvar.textContent = 'Salvar';
 
-	document.querySelector('#nome').value = estudante.Nome;
-	document.querySelector('#sobrenome').value = estudante.Sobrenome;
-	document.querySelector('#telefone').value = estudante.Telefone;
-	document.querySelector('#ra').value = estudante.RA;
+	document.querySelector('#nome').value = estudante.nome;
+	document.querySelector('#sobrenome').value = estudante.sobrenome;
+	document.querySelector('#telefone').value = estudante.telefone;
+	document.querySelector('#ra').value = estudante.ra;
 
 	aluno = estudante;
 
@@ -143,10 +143,10 @@ function excluir(estudante) {
 function adicionaLinha(estudante) {
 
 	var trow = `<tr>
-	<td>${estudante.Nome}</td>
-	<td>${estudante.Sobrenome}</td>
-	<td>${estudante.Telefone}</td>
-	<td>${estudante.RA}</td>
+	<td>${estudante.nome}</td>
+	<td>${estudante.sobrenome}</td>
+	<td>${estudante.telefone}</td>
+	<td>${estudante.ra}</td>
 	<td>
 	<button class='btn btn-info' data-toggle="modal" data-target="#myModal" onClick='editarEstudante(${JSON.stringify(estudante)})'>Editar</button>
 	<button class='btn btn-danger' onClick='excluir(${JSON.stringify(estudante)})'>Excluir</button>
