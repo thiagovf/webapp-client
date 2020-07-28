@@ -23,13 +23,58 @@
     </form>
   </div>
   <script>
-    var login = function() {
+    (() => {
+      if (sessionStorage.getItem('token') != null){
+        window.location.href = "aluno-index.html";
+      }
+    })();
 
+    var login = function() {
+      event.preventDefault();
+
+      var email = document.querySelector('#email');
+      var senha = document.querySelector('#senha');
+
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('POST', 'http://localhost:51441/token', true);
+
+      xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+
+      xhr.onload = function() {
+        var resultado = JSON.parse(this.responseText);
+
+        if (resultado.error !=  "invalid_grant") {
+          sessionStorage.setItem('token', `${resultado.token_type} ${resultado.access_token}`);
+          verificar();
+        } else {
+          alert(resultado.error_description);
+          email.value = "";
+          senha.value = "";
+        }
+      }
+
+      xhr.send(`grant_type=password&username=${email.value}&password=${senha.value}`);
     }
 
 
     var verificar = function() {
-      
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('GET', `http://localhost:51441/api/Aluno/Recuperar`, true);
+
+      xhr.setRequestHeader('authorization', sessionStorage.getItem('token'));
+
+      xhr.onerror = function () {
+        console.log('ERRO', xhr.readyState);
+      }
+
+      xhr.onreadystatechange = function() {
+        var result = this.responseText;
+        window.location.href = "aluno-index.html";
+      }
+
+      xhr.send();
     }
 
   </script>
