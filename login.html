@@ -46,6 +46,7 @@
 
         if (resultado.error !=  "invalid_grant") {
           sessionStorage.setItem('token', `${resultado.token_type} ${resultado.access_token}`);
+          sessionStorage.setItem('username', `${resultado.UserName}`);
           verificar();
         } else {
           alert(resultado.error_description);
